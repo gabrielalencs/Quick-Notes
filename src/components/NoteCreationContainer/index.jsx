@@ -1,6 +1,6 @@
 // React
 
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 // Tippy.js
 
@@ -18,7 +18,14 @@ import { MdFormatUnderlined } from "react-icons/md";
 
 const NoteCreationContainer = () => {
 
+    const [noteText, setNoteText] = useState('');
+    const containerNoteRef = useRef(null);
 
+    window.addEventListener('click', (event) => {
+        if (containerNoteRef.current && event.target.closest('.textFormattingButton')) {
+            containerNoteRef.current.focus();
+        }
+    });
 
     // Tippy.js
 
@@ -38,9 +45,10 @@ const NoteCreationContainer = () => {
         });
     }, []);
 
-    
+
+
     return (
-        <div className="bg-blue-container-notes border border-blue-header rounded-md max-w-[766px]">
+        <div className=" border border-blue-header rounded-md max-w-[700px]">
             <div className="py-4 px-5 flex items-center gap-5 text-white bg-blue-container-notes-header">
                 <button id="boldButton">
                     <FaBold className="textFormattingButton" />
@@ -53,6 +61,15 @@ const NoteCreationContainer = () => {
                 <button id="underlineButton">
                     <MdFormatUnderlined className="textFormattingButton text-xl relative top-[0.5px]" />
                 </button>
+            </div>
+
+            <div className='bg-blue-container-notes h-[350px] p-5 outline-none'>
+                <textarea
+                    className='bg-transparent text-white inline-block h-full w-full resize-none focus:outline-none'
+                    ref={containerNoteRef}
+                    value={noteText}
+                    onChange={(event) => setNoteText(event.target.value)}
+                />
             </div>
         </div>
     )

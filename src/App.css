@@ -19,6 +19,49 @@ body {
     background-color: #121212;
 }
 
+svg {
+    outline: none;
+}
+
+
+/* Animação do cursor */
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+.text-typing {
+    display: inline-block;
+    position: relative;
+
+    &::after {
+        content: '|';
+        position: absolute;
+        top: 0;
+        right: -5px;
+        animation: blink 1s infinite;
+        opacity: 1;
+        color: white;
+    }
+
+    &::before {
+        content: '';
+        display: inline-block;
+        width: 1px;
+        height: 1px;
+    }
+}
+
 
 /* Tippy.js */
 
