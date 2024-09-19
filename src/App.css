@@ -40,6 +40,11 @@ svg {
 }
 
 
+.textFormattingButton.text-blue-buttons:hover {
+    color: #2DD4BF;
+}
+
+
 .text-typing {
     display: inline-block;
     position: relative;
