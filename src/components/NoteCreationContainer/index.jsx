@@ -23,7 +23,6 @@ const NoteCreationContainer = () => {
 
 
     const toggleTextFormatting = (formatType) => {
-
         let updateFormating;
 
         if (textFormatting.includes(formatType)) {
