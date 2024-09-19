@@ -1,69 +1,44 @@
 import { useEffect, useState, useRef } from 'react';
-
-// Tippy.js
-
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/shift-away.css';
-import 'tippy.js/dist/svg-arrow.css';
-
-// React Icons
-
-import { FaBold } from "react-icons/fa";
-import { FaItalic } from "react-icons/fa";
+import { FaBold, FaItalic } from "react-icons/fa";
 import { MdFormatUnderlined } from "react-icons/md";
-
 
 const NoteCreationContainer = () => {
     const [textFormatting, setTextFormatting] = useState([]);
-
     const containerNoteRef = useRef(null);
 
-    console.log(textFormatting);
-
-
     const toggleTextFormatting = (formatType) => {
-        let updateFormating;
 
-        if (textFormatting.includes(formatType)) {
-            updateFormating = textFormatting.filter(type => type !== formatType)
-        } else {
-            updateFormating = [...textFormatting, formatType]
-        }
-
-        setTextFormatting(updateFormating);
-    };
-
-
-    const applyFormatting = () => {
         containerNoteRef.current.focus();
 
+        // Atualizar o estado da formatação
+        setTextFormatting((prevFormats) => {
+            return prevFormats.includes(formatType)
+                ? prevFormats.filter((type) => type !== formatType)
+                : [...prevFormats, formatType];
+        });
+
+        // Aplicar a formatação ao texto selecionado
+        applyFormatting(formatType);
+    };
+
+    const applyFormatting = (formatType) => {
         const commands = {
             'font-bold': 'bold',
             'italic': 'italic',
-            'underline': 'underline'
+            'underline': 'underline',
         };
 
-        textFormatting.forEach((format) => {
-            if (commands[format]) {
-                document.execCommand(commands[format], false, null);
-            }
-        });
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0 && commands[formatType]) {
+            document.execCommand(commands[formatType], false, null);
+        }
     };
 
-
     useEffect(() => {
-        applyFormatting();
-    }, [textFormatting]);
-
-
-    useEffect(() => {
-        const tooltipsContent = [
-            "Negrito",
-            "Itálico",
-            "Sublinhado",
-        ];
-
+        const tooltipsContent = ["Negrito", "Itálico", "Sublinhado"];
         document.querySelectorAll('.textFormattingButton').forEach((button, index) => {
             tippy(button, {
                 content: tooltipsContent[index],
@@ -78,28 +53,19 @@ const NoteCreationContainer = () => {
             <div className="py-4 px-5 flex items-center gap-5 text-white bg-blue-container-notes-header">
                 <button
                     className={`textFormattingButton ${textFormatting.includes('font-bold') ? 'text-blue-buttons' : ''}`}
-                    onClick={() => {
-                        toggleTextFormatting('font-bold');
-                        applyFormatting();
-                    }}
+                    onClick={() => toggleTextFormatting('font-bold')}
                 >
                     <FaBold />
                 </button>
                 <button
                     className={`textFormattingButton ${textFormatting.includes('italic') ? 'text-blue-buttons' : ''}`}
-                    onClick={() => {
-                        toggleTextFormatting('italic');
-                        applyFormatting();
-                    }}
+                    onClick={() => toggleTextFormatting('italic')}
                 >
                     <FaItalic />
                 </button>
                 <button
                     className={`textFormattingButton ${textFormatting.includes('underline') ? 'text-blue-buttons' : ''}`}
-                    onClick={() => {
-                        toggleTextFormatting('underline');
-                        applyFormatting();
-                    }}
+                    onClick={() => toggleTextFormatting('underline')}
                 >
                     <MdFormatUnderlined className="text-xl relative top-[0.5px]" />
                 </button>
@@ -109,9 +75,8 @@ const NoteCreationContainer = () => {
                 className='bg-blue-container-notes h-[350px] p-5 outline-none text-white'
                 ref={containerNoteRef}
                 contentEditable
-                suppressContentEditableWarning>
-                
-            </div>
+                suppressContentEditableWarning
+            ></div>
         </div>
     );
 };
