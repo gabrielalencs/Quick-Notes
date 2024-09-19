@@ -70,12 +70,12 @@ svg {
 
 /* Tippy.js */
 
-.tippy-box[data-theme~='textFormattingButtonTippy'] {
+.tippy-box[data-theme~='tippyPrimary'] {
     background-color: #374151;
     padding: 5px;
     font-size: 16px;
 }
 
-.tippy-box[data-theme~='textFormattingButtonTippy'][data-placement^='top']>.tippy-arrow::before {
+.tippy-box[data-theme~='tippyPrimary'][data-placement^='top']>.tippy-arrow::before {
     border-top-color: #374151;
 }
