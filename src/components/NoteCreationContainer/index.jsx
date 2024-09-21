@@ -19,9 +19,9 @@ const NoteCreationContainer = () => {
     const [transcriptText, setTranscriptText] = useState('');
     const [interimText, setInterimText] = useState('');
 
-
-
     const containerNoteRef = useRef(null);
+
+    // formatting texts in bold italics and underlining
 
     const toggleTextFormatting = (formatType) => {
         containerNoteRef.current.focus();
@@ -46,7 +46,24 @@ const NoteCreationContainer = () => {
         }
     };
 
-    // Iniciar gravação de fala
+    useEffect(() => {
+        const tooltipsContent = [
+            "Negrito", "Itálico", "Sublinhado",
+            "Gravar voz", "Para gravação", "Limpar", "Salvar"
+        ];
+
+        document.querySelectorAll('.buttonTooltip').forEach((button, index) => {
+            tippy(button, {
+                content: tooltipsContent[index],
+                animation: "shift-away",
+                theme: "tippyPrimary",
+            });
+        });
+    }, []);
+
+
+   // record voice and stop recording button
+
     const startRecognition = () => {
         setRecognitionInstance(true);
 
@@ -65,18 +82,13 @@ const NoteCreationContainer = () => {
                 for (let i = event.resultIndex; i < event.results.length; i++) {
                     const transcript = event.results[i][0].transcript;
 
-                    if (event.results[i].isFinal) {
-                        // Acumula o texto finalizado
-                        finalTranscript += transcript;
-                    } else {
-                        // Exibe o texto provisório
-                        interimTranscript += transcript;
-                    }
+                    event.results[i].isFinal
+                        ? finalTranscript += transcript
+                        : interimTranscript += transcript;
                 }
 
-                // Atualiza o texto final e provisório
-                setTranscriptText((prevText) => prevText + finalTranscript); // Acumula o texto final
-                setInterimText(interimTranscript); // Exibe o texto provisório
+                setTranscriptText((prevText) => prevText + finalTranscript);
+                setInterimText(interimTranscript);
             };
 
             recognition.onerror = (event) => {
@@ -84,8 +96,7 @@ const NoteCreationContainer = () => {
             };
 
             recognition.onend = () => {
-                console.log('Reconhecimento de fala terminado.');
-                setInterimText(''); // Limpa o texto provisório ao finalizar
+                setInterimText('');
                 setRecognitionInstance(null);
             };
 
@@ -96,7 +107,6 @@ const NoteCreationContainer = () => {
         }
     };
 
-    // Parar gravação de fala
     const stopRecognition = () => {
         if (recognitionInstance) {
             recognitionInstance.stop();
@@ -104,38 +114,26 @@ const NoteCreationContainer = () => {
         }
     };
 
-
-    // useEffect(() => {
-    //     const handleInput = () => {
-    //         const textContent = containerNoteRef.current.textContent;
-    //         if (!textContent) {
-    //             // Se o conteúdo foi apagado, também apaga o texto no estado
-    //             setTranscriptText('');
-    //         }
-    //     };
-
-    //     const containerNote = containerNoteRef.current;
-    //     containerNote.addEventListener('input', handleInput);
-
-    //     return () => {
-    //         containerNote.removeEventListener('input', handleInput);
-    //     };
-    // }, []);
-
     useEffect(() => {
-        const tooltipsContent = [
-            "Negrito", "Itálico", "Sublinhado",
-            "Gravar voz", "Para gravação", "Limpar", "Salvar"
-        ];
+        const textContent = containerNoteRef.current.textContent;
 
-        document.querySelectorAll('.buttonTooltip').forEach((button, index) => {
-            tippy(button, {
-                content: tooltipsContent[index],
-                animation: "shift-away",
-                theme: "tippyPrimary",
-            });
-        });
-    }, []);
+        if (!textContent) {
+            setTranscriptText('');
+        }
+
+    }, [containerNoteRef?.current?.textContent]);
+
+
+    const clearTextFromNotepad = () => {
+        containerNoteRef.current.innerText = '';
+        setTranscriptText('');
+
+        containerNoteRef.current.focus();
+    };
+
+
+
+
 
     return (
         <div className='max-w-[700px]'>
@@ -162,13 +160,15 @@ const NoteCreationContainer = () => {
                 </div>
 
                 <div
-                    className='bg-blue-container-notes h-[350px] p-5 outline-none text-white'
-                    ref={containerNoteRef}
-                    contentEditable
-                    suppressContentEditableWarning
-                >
-                    {transcriptText}
-                    <span style={{ opacity: 0.5 }}>{interimText}</span>
+                    className='bg-blue-container-notes h-[350px] p-5 '>
+                    <span
+                        className='outline-none text-white'
+                        ref={containerNoteRef}
+                        contentEditable
+                        suppressContentEditableWarning>
+                        {transcriptText}
+                    </span>
+                    <span className='outline-none text-white opacity-50'>{interimText}</span>
                 </div>
             </div>
 
@@ -181,7 +181,7 @@ const NoteCreationContainer = () => {
                     <FaRegSquare />
                 </button>
 
-                <button className='buttonsContainerNoteCreation buttonTooltip'>
+                <button className='buttonsContainerNoteCreation buttonTooltip' onClick={clearTextFromNotepad}>
                     <RiDeleteBinLine />
                 </button>
 
