@@ -1,6 +1,13 @@
 // React
 
-import { useEffect, useState, useRef } from 'react';
+import {
+    useEffect, useState,
+    useRef, useContext
+} from 'react';
+
+// Context
+
+import { NoteInformationContext } from '../../context/NoteInformationContext';
 
 // Tippy.js
 
@@ -19,6 +26,11 @@ import { FiSave } from "react-icons/fi";
 
 
 const NoteCreationContainer = () => {
+    const { noteInformation, setNoteInformation } = useContext(NoteInformationContext);
+
+    console.log(noteInformation);
+
+
     const [textFormatting, setTextFormatting] = useState([]);
     const [recognitionInstance, setRecognitionInstance] = useState(null);
     const [interimText, setInterimText] = useState('');
@@ -135,6 +147,28 @@ const NoteCreationContainer = () => {
     };
 
 
+    const addNote = () => {
+        const textTypedInContainer = containerNoteRef.current.innerHTML;
+
+        const currentDate = new Date();
+        const dateFormatted = currentDate.toLocaleDateString();
+        const timeFormatted = currentDate.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+
+        const createdNoteInformation = {
+            text: textTypedInContainer,
+            date: dateFormatted,
+            time: timeFormatted
+        };
+
+
+        setNoteInformation([...noteInformation, createdNoteInformation]);
+        clearTextFromNotepad();
+    };
+
+
 
     return (
         <div className='max-w-[700px] flex-1'>
@@ -176,7 +210,7 @@ const NoteCreationContainer = () => {
                 <button className='buttonsContainerNoteCreation buttonTooltip' onClick={startRecognition}><IoMicOutline /></button>
                 <button className='buttonsContainerNoteCreation buttonTooltip' onClick={stopRecognition}><FaRegSquare /></button>
                 <button className='buttonsContainerNoteCreation buttonTooltip' onClick={clearTextFromNotepad}><RiDeleteBinLine /></button>
-                <button className='buttonsContainerNoteCreation buttonTooltip'><FiSave /></button>
+                <button className='buttonsContainerNoteCreation buttonTooltip' onClick={addNote}><FiSave /></button>
             </div>
         </div>
     );
