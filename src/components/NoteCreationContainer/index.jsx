@@ -20,13 +20,8 @@ import { FiSave } from "react-icons/fi";
 
 const NoteCreationContainer = () => {
     const [textFormatting, setTextFormatting] = useState([]);
-
     const [recognitionInstance, setRecognitionInstance] = useState(null);
-
-    const [transcriptText, setTranscriptText] = useState('');
     const [interimText, setInterimText] = useState('');
-
-    const [textContainerNote, setTextContainerNote] = useState('');
 
     const containerNoteRef = useRef(null);
 
@@ -97,7 +92,6 @@ const NoteCreationContainer = () => {
                         : interimTranscript += transcript;
                 }
 
-                setTranscriptText((prevText) => prevText + finalTranscript);
                 setInterimText(interimTranscript);
 
                 if (containerNoteRef.current) {
@@ -128,28 +122,16 @@ const NoteCreationContainer = () => {
         }
     };
 
-    useEffect(() => {
-        const textContent = containerNoteRef.current.textContent;
-
-        if (!textContent) {
-            setTranscriptText('');
-        }
-
-    }, [containerNoteRef?.current?.textContent]);
-
-
 
     // clear note creation container - button three
 
     const clearTextFromNotepad = () => {
         containerNoteRef.current.innerText = '';
-        setTranscriptText('');
 
         containerNoteRef.current.focus();
 
         console.log(textFormatting);
         setTextFormatting([])
-
     };
 
 
@@ -185,27 +167,16 @@ const NoteCreationContainer = () => {
                         ref={containerNoteRef}
                         contentEditable
                         suppressContentEditableWarning
-                    ></span>
+                    />
                     <span className='outline-none text-white opacity-50'>{interimText}</span>
                 </div>
             </div>
 
-            <div className='flex justify-center gap-5 mt-8'>
-                <button className='buttonsContainerNoteCreation buttonTooltip' onClick={startRecognition}>
-                    <IoMicOutline />
-                </button>
-
-                <button className='buttonsContainerNoteCreation buttonTooltip' onClick={stopRecognition}>
-                    <FaRegSquare />
-                </button>
-
-                <button className='buttonsContainerNoteCreation buttonTooltip' onClick={clearTextFromNotepad}>
-                    <RiDeleteBinLine />
-                </button>
-
-                <button className='buttonsContainerNoteCreation buttonTooltip'>
-                    <FiSave />
-                </button>
+            <div className='flex justify-center gap-5 flex-wrap mt-8'>
+                <button className='buttonsContainerNoteCreation buttonTooltip' onClick={startRecognition}><IoMicOutline /></button>
+                <button className='buttonsContainerNoteCreation buttonTooltip' onClick={stopRecognition}><FaRegSquare /></button>
+                <button className='buttonsContainerNoteCreation buttonTooltip' onClick={clearTextFromNotepad}><RiDeleteBinLine /></button>
+                <button className='buttonsContainerNoteCreation buttonTooltip'><FiSave /></button>
             </div>
         </div>
     );

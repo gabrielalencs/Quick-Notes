@@ -13,6 +13,10 @@
     .buttonsContainerNoteCreation {
         @apply bg-blue-buttons p-3 rounded-full text-2xl;
     }
+
+    .iconsContainerNote {
+        @apply duration-300 rounded-full h-9 w-9 grid place-items-center hover:bg-[#2dd4bf0a];
+    }
 }
 
 body {
@@ -23,50 +27,6 @@ body {
 
 svg {
     outline: none;
-}
-
-
-/* Animação do cursor */
-@keyframes blink {
-    0% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-
-.textFormattingButton.text-blue-buttons:hover {
-    color: #2DD4BF;
-}
-
-
-.text-typing {
-    display: inline-block;
-    position: relative;
-
-    &::after {
-        content: '|';
-        position: absolute;
-        top: 0;
-        right: -5px;
-        animation: blink 1s infinite;
-        opacity: 1;
-        color: white;
-    }
-
-    &::before {
-        content: '';
-        display: inline-block;
-        width: 1px;
-        height: 1px;
-    }
 }
 
 
@@ -83,7 +43,7 @@ svg {
 }
 
 
-
+/* Note Container */
 
 .post-it {
     border-radius: 0 0 0 30px / 45px;
@@ -124,9 +84,3 @@ svg {
         width: 75%;
     }
 }
-
-/* 
-    <div class="post-it">
-        <h1>teste</h1>
-    </div> 
-*/
