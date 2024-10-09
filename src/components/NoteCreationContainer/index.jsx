@@ -1,11 +1,15 @@
+// React
+
 import { useEffect, useState, useRef } from 'react';
 
 // Tippy.js
+
 import tippy from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/shift-away.css';
 
 // React Icons
+
 import { FaBold, FaItalic } from "react-icons/fa";
 import { MdFormatUnderlined } from "react-icons/md";
 import { IoMicOutline } from "react-icons/io5";
@@ -13,15 +17,21 @@ import { FaRegSquare } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FiSave } from "react-icons/fi";
 
+
 const NoteCreationContainer = () => {
     const [textFormatting, setTextFormatting] = useState([]);
+
     const [recognitionInstance, setRecognitionInstance] = useState(null);
+
     const [transcriptText, setTranscriptText] = useState('');
     const [interimText, setInterimText] = useState('');
 
+    const [textContainerNote, setTextContainerNote] = useState('');
+
     const containerNoteRef = useRef(null);
 
-    // formatting texts in bold italics and underlining
+
+    // text formatting when clicking on buttons
 
     const toggleTextFormatting = (formatType) => {
         containerNoteRef.current.focus();
@@ -62,7 +72,7 @@ const NoteCreationContainer = () => {
     }, []);
 
 
-   // record voice and stop recording button
+    // capture audio and transcribe in the note creation container - button one and button two
 
     const startRecognition = () => {
         setRecognitionInstance(true);
@@ -89,6 +99,10 @@ const NoteCreationContainer = () => {
 
                 setTranscriptText((prevText) => prevText + finalTranscript);
                 setInterimText(interimTranscript);
+
+                if (containerNoteRef.current) {
+                    containerNoteRef.current.innerText += finalTranscript;
+                }
             };
 
             recognition.onerror = (event) => {
@@ -124,19 +138,24 @@ const NoteCreationContainer = () => {
     }, [containerNoteRef?.current?.textContent]);
 
 
+
+    // clear note creation container - button three
+
     const clearTextFromNotepad = () => {
         containerNoteRef.current.innerText = '';
         setTranscriptText('');
 
         containerNoteRef.current.focus();
+
+        console.log(textFormatting);
+        setTextFormatting([])
+
     };
 
 
 
-
-
     return (
-        <div className='max-w-[700px]'>
+        <div className='max-w-[700px] flex-1'>
             <div className="border border-blue-header rounded-md">
                 <div className="py-4 px-5 flex items-center gap-5 text-white bg-blue-container-notes-header">
                     <button
@@ -162,12 +181,11 @@ const NoteCreationContainer = () => {
                 <div
                     className='bg-blue-container-notes h-[350px] p-5 '>
                     <span
-                        className='outline-none text-white'
+                        className='outline-none text-white inline-block w-full'
                         ref={containerNoteRef}
                         contentEditable
-                        suppressContentEditableWarning>
-                        {transcriptText}
-                    </span>
+                        suppressContentEditableWarning
+                    ></span>
                     <span className='outline-none text-white opacity-50'>{interimText}</span>
                 </div>
             </div>
