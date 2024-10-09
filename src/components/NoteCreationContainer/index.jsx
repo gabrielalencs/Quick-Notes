@@ -28,9 +28,6 @@ import { FiSave } from "react-icons/fi";
 const NoteCreationContainer = () => {
     const { noteInformation, setNoteInformation } = useContext(NoteInformationContext);
 
-    console.log(noteInformation);
-
-
     const [textFormatting, setTextFormatting] = useState([]);
     const [recognitionInstance, setRecognitionInstance] = useState(null);
     const [interimText, setInterimText] = useState('');
@@ -79,7 +76,7 @@ const NoteCreationContainer = () => {
     }, []);
 
 
-    // capture audio and transcribe in the note creation container - button one and button two
+    // capture audio and transcribe in the note creation container - first and second button
 
     const startRecognition = () => {
         setRecognitionInstance(true);
@@ -135,39 +132,52 @@ const NoteCreationContainer = () => {
     };
 
 
-    // clear note creation container - button three
+    // clear note creation container - third button
 
     const clearTextFromNotepad = () => {
         containerNoteRef.current.innerText = '';
-
         containerNoteRef.current.focus();
-
-        console.log(textFormatting);
         setTextFormatting([])
     };
 
 
+    // create note with information - fourth button
+ 
     const addNote = () => {
         const textTypedInContainer = containerNoteRef.current.innerHTML;
 
-        const currentDate = new Date();
-        const dateFormatted = currentDate.toLocaleDateString();
-        const timeFormatted = currentDate.toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-        });
+        if (textTypedInContainer) {
+            const randomId = Math.random().toString(36).substring(2, 6).toUpperCase();
 
-        const createdNoteInformation = {
-            text: textTypedInContainer,
-            date: dateFormatted,
-            time: timeFormatted
-        };
-
-
-        setNoteInformation([...noteInformation, createdNoteInformation]);
-        clearTextFromNotepad();
+            const currentDate = new Date();
+            const dateFormatted = currentDate.toLocaleDateString();
+            const timeFormatted = currentDate.toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+            });
+    
+            const createdNoteInformation = {
+                id: randomId,
+                text: textTypedInContainer,
+                date: dateFormatted,
+                time: timeFormatted
+            };
+    
+    
+            setNoteInformation(prevNotes => [...prevNotes, createdNoteInformation]);
+            clearTextFromNotepad();
+        }
+     
     };
 
+    useEffect(() => {
+        if (noteInformation.length > 0) {
+            localStorage.setItem('notes-created', JSON.stringify(noteInformation));
+        }
+    }, [noteInformation]);
+
+    console.log(noteInformation);
+    
 
 
     return (
@@ -195,7 +205,8 @@ const NoteCreationContainer = () => {
                 </div>
 
                 <div
-                    className='bg-blue-container-notes h-[350px] p-5 '>
+                    className='bg-blue-container-notes h-[350px] p-5'
+                    onClick={() => containerNoteRef.current.focus()}>
                     <span
                         className='outline-none text-white inline-block w-full'
                         ref={containerNoteRef}

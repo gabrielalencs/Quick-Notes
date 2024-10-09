@@ -45,7 +45,7 @@ svg {
 
 /* Note Container */
 
-.post-it {
+.postIt {
     border-radius: 0 0 0 30px / 45px;
     box-shadow: inset 0 -40px 40px rgba(36, 36, 36, 0.199), inset 0 25px 10px rgba(36, 36, 36, 0.199), 0 5px 6px 5px rgba(36, 36, 36, 0.199);
     cursor: move;
@@ -58,6 +58,9 @@ svg {
     position: relative;
     text-align: left;
     width: 100%;
+    color: #f3f4f6;
+    transform: scale(0);
+    animation: toGrow 0.4s forwards;
 
     &::before {
         content: "";
@@ -82,5 +85,11 @@ svg {
         height: 20px;
         left: 10%;
         width: 75%;
+    }
+}
+
+@keyframes toGrow {
+    to {
+        transform: scale(1);
     }
 }
