@@ -98,7 +98,6 @@ svg {
 .custom-chrome-picker {
     margin-bottom: 1000px;
 
-    
     & div:nth-child(2) {
         background-color: red;
     }
