@@ -94,11 +94,29 @@ svg {
     }
 }
 
+/* color picker - react color */
 
-.custom-chrome-picker {
-    margin-bottom: 1000px;
+.custom-chrome-picker>div:last-child {
+    background-color: #1d2b49;
+}
 
-    & div:nth-child(2) {
-        background-color: red;
-    }
+.custom-chrome-picker .flexbox-fix {
+    align-items: center;
+    gap: 1rem;
+}
+
+.custom-chrome-picker .flexbox-fix:nth-child(2) {
+    display: none !important;
+}
+
+.flexbox-fix>div:last-child div:nth-child(1) {
+    margin-bottom: 0 !important;
+}
+
+.flexbox-fix>div:last-child > div:nth-child(2) {
+    display: none !important; 
+}
+
+.flexbox-fix>div:first-child {
+    display: none;
 }
