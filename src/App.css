@@ -70,7 +70,6 @@ svg {
         height: 30px;
         left: 0;
         transform: skew(25deg);
-        background-color: #252C37;
         width: 25px;
         z-index: 2;
     }

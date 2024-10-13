@@ -11,7 +11,7 @@ import { BsGearWideConnected } from "react-icons/bs";
 import { ChromePicker } from 'react-color';
 
 
-const SettingsContainer = ({ colorPickerValue = '#273347', updatePickerColor }) => {
+const SettingsContainer = ({ colorPickerValue, updatePickerColor }) => {
 
 
     const handleChangeComplete = (colorPickerValue) => updatePickerColor(colorPickerValue.hex);
@@ -20,14 +20,14 @@ const SettingsContainer = ({ colorPickerValue = '#273347', updatePickerColor }) 
 
 
     return (
-        <div className="relative">
-            <div className="flex justify-end">
+        <div className="relative flex flex-col items-end">
+            <div>
                 <div className="h-11 w-11 grid place-items-center rounded-full duration-300 hover:bg-[#2dd4bf0a]">
                     <BsGearWideConnected className="text-white text-2xl cursor-pointer duration-300 hover:rotate-12" />
                 </div>
             </div>
 
-            <div className="bg-[#1f2937] p-5 border-[1px] border-[#424b57]">
+            <div className="bg-[#1f2937] p-5 border-[1px] border-[#424b57] w-max">
                 <div className="relative w-max text-[#f3f4f6]">
                     <h3 className="text-lg">Altere a cor das notas:</h3>
                     <ChromePicker
