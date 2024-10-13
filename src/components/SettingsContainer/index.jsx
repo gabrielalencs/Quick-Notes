@@ -27,8 +27,8 @@ const SettingsContainer = ({ colorPickerValue, updatePickerColor }) => {
                 </div>
             </div>
 
-            <div className="bg-[#1f2937] p-5 border-[1px] border-[#424b57] w-max">
-                <div className="relative w-max text-[#f3f4f6]">
+            <div className="bg-[#1f2937] p-5 border-[1px] border-[#424b57]">
+                <div className="relative w-max text-[#f3f4f6] border-[1px] border-[#424b57] border-r-0 border-t-0 border-l-0 pb-5">
                     <h3 className="text-lg">Altere a cor das notas:</h3>
                     <ChromePicker
                         className="custom-chrome-picker mt-2"
@@ -41,6 +41,17 @@ const SettingsContainer = ({ colorPickerValue, updatePickerColor }) => {
                             Redefinir cor:
                             <span className="inline-block w-[16px] h-[16px] bg-[#273347] rounded-full"></span>
                         </p>
+                    </div>
+                </div>
+
+                <div className="mt-5">
+                    <h3 className="text-[#f3f4f6] text-lg">Altere o tamanho da fonte das notas:</h3>
+                    <div>
+                        <input 
+                            type="number"
+                            className="bg-[#111827] p-2 rounded-md duration-200 border-[1px] border-transparent text-white focus:outline-none hover:border-[#2dd4bf] focus:border-[#2dd4bf] focus:shadow-md focus:shadow-[#2dd4bf33]"
+                        />
+                        <input type="range" />
                     </div>
                 </div>
             </div>

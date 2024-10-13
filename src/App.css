@@ -30,6 +30,29 @@ svg {
 }
 
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: red !important;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background-color: #424B57;
+    height: 10px;
+    border-radius: 20px;
+}
+
+input[type="range"]::-moz-range-progress  {
+    background-color: #2DD4BF;
+}
+
+
 /* Tippy.js */
 
 .tippy-box[data-theme~='tippyPrimary'] {
@@ -130,7 +153,7 @@ svg {
 .flexbox-fix>div:first-child div {
     margin-top: 0 !important;
     position: absolute !important;
-    bottom: 1.7rem;
+    bottom: 3rem;
     left: 4.6rem;
 }
 
