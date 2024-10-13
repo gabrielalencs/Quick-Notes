@@ -13,7 +13,7 @@ import { SlPencil } from "react-icons/sl";
 import { LuDownload } from "react-icons/lu";
 
 
-const NoteContainer = () => {
+const NoteContainer = ({ colorPickerValue, updatePickerColor }) => {
     const { noteInformation, setNoteInformation } = useContext(NoteInformationContext);
 
     useEffect(() => {
@@ -22,12 +22,15 @@ const NoteContainer = () => {
         setNoteInformation(favoriteSavedNotes);
     }, []);
 
+    console.log(colorPickerValue);
+    
+
 
     return (
         <div className="flex-1 grid gap-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 lg:gap-y-16 lg:gap-7 min-[1589px]:grid-cols-3">
             {
                 noteInformation.map(noteCreated => (
-                    <div className="postIt max-w-[300px] md:max-w-[350px]" key={noteCreated.id}>
+                    <div className="postIt max-w-[300px] md:max-w-[350px] bg-[#273347]" key={noteCreated.id}>
                         <div className="flex items-center gap-4 flex-wrap justify-between">
                             <div className="flex items-center flex-wrap gap-1 text-sm">
                                 <span>{noteCreated.date}</span>

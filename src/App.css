@@ -52,7 +52,6 @@ svg {
     display: flex;
     flex-direction: column;
     height: min-content;
-    background-color: rgb(39, 51, 71);
     overflow: hidden;
     padding: 20px 20px 60px;
     position: relative;
@@ -96,13 +95,19 @@ svg {
 
 /* color picker - react color */
 
+.custom-chrome-picker {
+    border: 1px solid #424b57;
+    padding: .5rem;
+    background-color: #1f2937 !important;
+}
+
 .custom-chrome-picker>div:last-child {
-    background-color: #1d2b49;
+    background-color: #171f2b;
+    /* background-color: transparent; */
 }
 
 .custom-chrome-picker .flexbox-fix {
     align-items: center;
-    gap: 1rem;
 }
 
 .custom-chrome-picker .flexbox-fix:nth-child(2) {
@@ -113,10 +118,23 @@ svg {
     margin-bottom: 0 !important;
 }
 
+.flexbox-fix>div:last-child > div:nth-child(1) {
+    /* display: none !important;  */
+    position: relative !important;
+    right: 1rem !important;
+}
+
 .flexbox-fix>div:last-child > div:nth-child(2) {
     display: none !important; 
 }
 
-.flexbox-fix>div:first-child {
-    display: none;
+.flexbox-fix>div:first-child div {
+    margin-top: 0 !important;
+    position: absolute !important;
+    bottom: 1.7rem;
+    left: 4.6rem;
+}
+
+.flexbox-fix>div:first-child div {
+    margin-top: 0 !important;
 }

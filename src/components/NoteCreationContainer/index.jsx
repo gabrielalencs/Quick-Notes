@@ -167,7 +167,6 @@ const NoteCreationContainer = () => {
             setNoteInformation(prevNotes => [...prevNotes, createdNoteInformation]);
             clearTextFromNotepad();
         }
-     
     };
 
     useEffect(() => {
@@ -176,7 +175,7 @@ const NoteCreationContainer = () => {
         }
     }, [noteInformation]);
 
-    console.log(noteInformation);
+
     
 
 
