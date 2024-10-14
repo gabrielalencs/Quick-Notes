@@ -18,6 +18,25 @@ const SettingsContainer = ({ colorPickerValue, updatePickerColor }) => {
 
     const resetNoteColor = () => updatePickerColor('#273347');
 
+    const [valueSynchronizedInputs, setValueSynchronizedInputs] = useState(20); 
+
+    const handleChangeNumberInput = (e) => {
+        const newValue = e.target.value;
+
+        if (newValue === "") {
+            setValueSynchronizedInputs(""); 
+        } else {
+            const clampedValue = Math.max(0, Math.min(100, Number(newValue)));
+            setValueSynchronizedInputs(clampedValue);
+        }
+    };
+
+    const handleChangeRangeInput = (e) => {
+        setValueSynchronizedInputs(e.target.value);
+    };
+
+
+
 
     return (
         <div className="relative flex flex-col items-end">
@@ -45,13 +64,29 @@ const SettingsContainer = ({ colorPickerValue, updatePickerColor }) => {
                 </div>
 
                 <div className="mt-5">
-                    <h3 className="text-[#f3f4f6] text-lg">Altere o tamanho da fonte das notas:</h3>
-                    <div>
-                        <input 
+                    <h3 className="text-[#f3f4f6] text-lg w-60">Altere o tamanho da fonte das notas:</h3>
+                    <div className="mt-3">
+                        <input
                             type="number"
-                            className="bg-[#111827] p-2 rounded-md duration-200 border-[1px] border-transparent text-white focus:outline-none hover:border-[#2dd4bf] focus:border-[#2dd4bf] focus:shadow-md focus:shadow-[#2dd4bf33]"
+                            min="1"
+                            max="100"
+                            value={valueSynchronizedInputs}
+                            onChange={handleChangeNumberInput}
+                            className="bg-[#111827] p-2 rounded-md duration-200 w-full border-[1px] border-transparent text-white focus:outline-none hover:border-[#2dd4bf] focus:border-[#2dd4bf] focus:shadow-md focus:shadow-[#2dd4bf33]"
                         />
-                        <input type="range" />
+                        <div className="range-container mt-2">
+                            <input
+                                type="range"
+                                min="0"
+                                max="100"
+                                value={valueSynchronizedInputs === "" ? 0 : valueSynchronizedInputs}
+                                onChange={handleChangeRangeInput}
+                                style={{
+                                    background: `linear-gradient(to right, #2DD4BF ${valueSynchronizedInputs}%, #424B57 ${valueSynchronizedInputs}%)`
+                                }}
+                                className="customRange"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
