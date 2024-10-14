@@ -13,28 +13,31 @@ import { ChromePicker } from 'react-color';
 
 const SettingsContainer = ({ colorPickerValue, updatePickerColor }) => {
 
+    const [selectedCheckbox, setSelectedCheckbox] = useState('Branco');
+    const [valueSynchronizedInputs, setValueSynchronizedInputs] = useState(20);
 
     const handleChangeComplete = (colorPickerValue) => updatePickerColor(colorPickerValue.hex);
 
     const resetNoteColor = () => updatePickerColor('#273347');
 
-    const [valueSynchronizedInputs, setValueSynchronizedInputs] = useState(20); 
 
     const handleChangeNumberInput = (e) => {
         const newValue = e.target.value;
 
         if (newValue === "") {
-            setValueSynchronizedInputs(""); 
+            setValueSynchronizedInputs("");
         } else {
             const clampedValue = Math.max(0, Math.min(100, Number(newValue)));
             setValueSynchronizedInputs(clampedValue);
         }
     };
 
-    const handleChangeRangeInput = (e) => {
-        setValueSynchronizedInputs(e.target.value);
-    };
+    const handleChangeRangeInput = (e) => setValueSynchronizedInputs(e.target.value);
 
+    const handleCheckboxChange = (event) => {
+        const value = event.target.value;
+        setSelectedCheckbox(value);
+    };
 
 
 
@@ -63,7 +66,7 @@ const SettingsContainer = ({ colorPickerValue, updatePickerColor }) => {
                     </div>
                 </div>
 
-                <div className="mt-5">
+                <div className="mt-5 border-[1px] border-[#424b57] border-r-0 border-t-0 border-l-0 pb-5">
                     <h3 className="text-[#f3f4f6] text-lg w-60">Altere o tamanho da fonte das notas:</h3>
                     <div className="mt-3">
                         <input
@@ -85,6 +88,36 @@ const SettingsContainer = ({ colorPickerValue, updatePickerColor }) => {
                                     background: `linear-gradient(to right, #2DD4BF ${valueSynchronizedInputs}%, #424B57 ${valueSynchronizedInputs}%)`
                                 }}
                                 className="customRange"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mt-5">
+                    <h3 className="text-[#f3f4f6] text-lg w-48">Altere a cor da fonte das notas:</h3>
+                    
+                    <div className="mt-3 text-[#f3f4f6] flex justify-between items-center">
+                        <div className="flex items-center gap-2 relative">
+                            <label htmlFor="checkWhite">Branco:</label>
+                            <input
+                                type="checkbox"
+                                id="checkWhite" 
+                                className="relative top-[1.5px]"
+                                value="Branco"
+                                checked={selectedCheckbox == "Branco"}
+                                onChange={handleCheckboxChange}
+                            />
+                        </div>
+
+                        <div className="flex items-center gap-2 relative">
+                            <label htmlFor="checkBlack">Preto:</label>
+                            <input
+                                type="checkbox"
+                                id="checkBlack" 
+                                className="relative top-[1.5px]"
+                                value="Preto"
+                                checked={selectedCheckbox == "Preto"}
+                                onChange={handleCheckboxChange}
                             />
                         </div>
                     </div>
