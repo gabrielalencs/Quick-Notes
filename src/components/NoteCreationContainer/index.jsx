@@ -160,7 +160,10 @@ const NoteCreationContainer = () => {
                 id: randomId,
                 text: textTypedInContainer,
                 date: dateFormatted,
-                time: timeFormatted
+                time: timeFormatted,
+                backgroundColor: null,
+                fontSize: null,
+                fontColor: null,
             };
     
     
