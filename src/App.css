@@ -23,6 +23,7 @@ body {
     font-family: "Inter", sans-serif;
     /* font-family: "Caveat", cursive; */
     background-color: #121212;
+    margin-bottom: 1000px;
 }
 
 svg {
@@ -209,4 +210,29 @@ input[type='checkbox']:checked::before {
 
 .flexbox-fix>div:first-child div {
     margin-top: 0 !important;
+}
+
+
+.triangle {
+    position: absolute;
+    top: -11px;
+    right: 17px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 12px solid #1F2937;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -11px;
+        width: 0;
+        height: 0;
+        border-left: 11px solid transparent;
+        border-right: 11px solid transparent;
+        border-bottom: 13px solid #424b57;
+        z-index: -1;
+    }
 }
