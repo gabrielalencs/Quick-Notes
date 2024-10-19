@@ -25,9 +25,26 @@
 
 body {
     font-family: "Inter", sans-serif;
-    /* font-family: "Caveat", cursive; */
     background-color: #121212;
-    /* margin-bottom: 1000px; */
+    /* margin-bottom: 100px; */
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        width: 15px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background-color: #121212;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background-color: #171f30;
+    }
+}
+
+.scrollHiddenActive {
+    padding-right: 15px;
 }
 
 html {

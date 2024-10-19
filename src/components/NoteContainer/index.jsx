@@ -23,18 +23,22 @@ const NoteContainer = () => {
     const [objectOfClickedElement, setObjectOfClickedElement] = useState();
 
 
-    const closeNoteEditingContainer = () => setHideNoteEditingContainer(true);
+    const closeNoteEditingContainer = () => {
+        setHideNoteEditingContainer(true);
+        document.querySelector('body').classList.remove('overflow-hidden');
+        document.querySelector('body').classList.remove('scrollHiddenActive');
+    }
 
     const openNoteEditingContainer = (idOfClickedContainer) => {
-        setHideNoteEditingContainer(false);
-
-        window.scrollTo(0, 0);
-
         const objectOfClickedElement = noteInformation.find(note => note.id === idOfClickedContainer);
-
-        document.querySelector('.inputTextarea').value = objectOfClickedElement.text;
-
         setObjectOfClickedElement(objectOfClickedElement);
+
+        setHideNoteEditingContainer(false);
+        window.scrollTo(0, 0);
+        document.querySelector('body').classList.add('overflow-hidden');
+        document.querySelector('body').classList.add('scrollHiddenActive');
+    
+        document.querySelector('.inputTextarea').value = objectOfClickedElement.text;
     };
 
 
@@ -50,7 +54,7 @@ const NoteContainer = () => {
             });
         });
 
-        closeNoteEditingContainer(); 
+        closeNoteEditingContainer();
     };
 
 
@@ -62,7 +66,7 @@ const NoteContainer = () => {
 
         const linkElement = document.createElement("a");
         linkElement.href = linkUrl;
-        linkElement.download = "nota.txt"; 
+        linkElement.download = "nota.txt";
         document.body.appendChild(linkElement);
         linkElement.click();
 
@@ -84,7 +88,7 @@ const NoteContainer = () => {
         setNoteInformation(favoriteSavedNotes);
     }, []);
 
-    
+
 
     return (
         <div className="flex-1 grid gap-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 lg:gap-y-16 lg:gap-7 min-[1589px]:grid-cols-3">
