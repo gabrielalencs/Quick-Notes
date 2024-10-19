@@ -18,35 +18,28 @@ const NoteContainer = () => {
     const { noteInformation, setNoteInformation } = useContext(NoteInformationContext);
 
     const colorNotes = noteInformation[0]?.backgroundColor;
+
     const [hideNoteEditingContainer, setHideNoteEditingContainer] = useState(true);
-    const [textOfClickedNote, setTextOfClickedNote] = useState('');
     const [objectOfClickedElement, setObjectOfClickedElement] = useState();
 
 
-    const getTextFromClickedNote = (idOfClickedContainer) => {
+    const closeNoteEditingContainer = () => setHideNoteEditingContainer(true);
+
+    const openNoteEditingContainer = (idOfClickedContainer) => {
+        setHideNoteEditingContainer(false);
+
         window.scrollTo(0, 0);
 
         const objectOfClickedElement = noteInformation.find(note => note.id === idOfClickedContainer);
 
-        document.querySelector('.inputTextarea').value = objectOfClickedElement.text
+        document.querySelector('.inputTextarea').value = objectOfClickedElement.text;
 
-        // setTextOfClickedNote(textOfClickedNote);
-        setObjectOfClickedElement(objectOfClickedElement)
+        setObjectOfClickedElement(objectOfClickedElement);
     };
 
-    const closeNoteEditingContainer = () => {
-        setHideNoteEditingContainer(true);
-        // setTextOfClickedNote('');
-    };
-
-    const openNoteEditingContainer = (idOfClickedContainer) => {
-        setHideNoteEditingContainer(false);
-        getTextFromClickedNote(idOfClickedContainer);
-    };
 
     const saveNoteEdit = () => {
         const editedText = document.querySelector('.inputTextarea').value;
-
 
         setNoteInformation(prevNotes => {
             return prevNotes.map(note => {
@@ -57,11 +50,32 @@ const NoteContainer = () => {
             });
         });
 
-
-        setHideNoteEditingContainer(true);
-        setTextOfClickedNote('');
-
+        closeNoteEditingContainer(); 
     };
+
+
+    const downloadNote = (idOfClickedContainer) => {
+        const textOfClickedElement = noteInformation.find(note => note.id === idOfClickedContainer).text;
+
+        const dataBlob = new Blob([textOfClickedElement], { type: "text/plain;charset=utf-8" });
+        const linkUrl = window.URL.createObjectURL(dataBlob);
+
+        const linkElement = document.createElement("a");
+        linkElement.href = linkUrl;
+        linkElement.download = "nota.txt"; 
+        document.body.appendChild(linkElement);
+        linkElement.click();
+
+        document.body.removeChild(linkElement);
+        window.URL.revokeObjectURL(linkUrl);
+    };
+
+    const deleteNote = (idOfClickedContainer) => {
+        const filteredArrayWithDeletedNote = noteInformation.filter(note => note.id !== idOfClickedContainer);
+
+        setNoteInformation(filteredArrayWithDeletedNote);
+        localStorage.setItem('notes-created', JSON.stringify(filteredArrayWithDeletedNote));
+    }
 
 
     useEffect(() => {
@@ -71,9 +85,8 @@ const NoteContainer = () => {
     }, []);
 
 
-    console.log(objectOfClickedElement);
-
-
+    console.log(noteInformation);
+    
 
     return (
         <div className="flex-1 grid gap-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 lg:gap-y-16 lg:gap-7 min-[1589px]:grid-cols-3">
@@ -108,8 +121,8 @@ const NoteContainer = () => {
                             />
                         </div>
 
-                        <div className="mt-8 flex gap-6 text-[#2DD4BF] text-xl">
-                            <div className="iconsContainerNote">
+                        <div className="mt-6 flex gap-6 text-[#2DD4BF] text-xl">
+                            <div className="iconsContainerNote" onClick={() => deleteNote(noteCreated.id)}>
                                 <RiDeleteBinLine />
                             </div>
 
@@ -117,7 +130,7 @@ const NoteContainer = () => {
                                 <SlPencil />
                             </div>
 
-                            <div className="iconsContainerNote">
+                            <div className="iconsContainerNote" onClick={() => downloadNote(noteCreated.id)}>
                                 <LuDownload />
                             </div>
                         </div>

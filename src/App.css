@@ -135,7 +135,7 @@ input[type='checkbox']:checked::before {
     flex-direction: column;
     height: min-content;
     overflow: hidden;
-    padding: 20px 20px 60px;
+    padding: 20px 20px 50px;
     position: relative;
     text-align: left;
     width: 100%;
