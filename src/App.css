@@ -21,6 +21,10 @@
     .buttonsContainerEditNote {
         @apply px-6 py-3 rounded-md font-semibold duration-200;
     }
+
+    .circleTasks {
+        @apply inline-block h-3 w-3 rounded-full mr-2;
+    }
 }
 
 body {

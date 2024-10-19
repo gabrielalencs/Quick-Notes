@@ -179,9 +179,6 @@ const NoteCreationContainer = () => {
     }, [noteInformation]);
 
 
-    
-
-
     return (
         <div className='max-w-[700px] flex-1'>
             <div className="border border-blue-header rounded-md">
@@ -224,6 +221,41 @@ const NoteCreationContainer = () => {
                 <button className='buttonsContainerNoteCreation buttonTooltip' onClick={stopRecognition}><FaRegSquare /></button>
                 <button className='buttonsContainerNoteCreation buttonTooltip' onClick={clearTextFromNotepad}><RiDeleteBinLine /></button>
                 <button className='buttonsContainerNoteCreation buttonTooltip' onClick={addNote}><FiSave /></button>
+            </div>
+
+            <div className='mt-14 mb-96'>
+                <h3 className='text-white text-xl font-semibold'>Status das Tarefas:</h3>
+                <ul className='mt-5 text-white flex flex-col gap-1'>
+                    <li>
+                        <span className='circleTasks bg-[#2DD4BF]'></span>
+                        Nova
+                    </li>
+
+                    <li>
+                        <span className='circleTasks bg-[#46D178]'></span>
+                        Concluída
+                    </li>
+
+                    <li>
+                        <span className='circleTasks bg-purple-900'></span>
+                        Prioridade
+                    </li>
+
+                    <li>
+                        <span className='circleTasks bg-red-800'></span>
+                        Urgente
+                    </li>
+
+                    <li>
+                        <span className='circleTasks bg-orange-700'></span>
+                        Andamento
+                    </li>
+
+                    <li>
+                        <span className='circleTasks bg-blue-800'></span>
+                        Opcional
+                    </li>
+                </ul>
             </div>
         </div>
     );

@@ -91,7 +91,7 @@ const NoteContainer = () => {
 
 
     return (
-        <div className="flex-1 grid gap-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 lg:gap-y-16 lg:gap-7 min-[1589px]:grid-cols-3">
+        <div className="flex-1 grid gap-10 place-content-start sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 lg:gap-y-16 lg:gap-7 min-[1589px]:grid-cols-3">
             {
                 noteInformation.map(noteCreated => (
                     <div
@@ -107,7 +107,7 @@ const NoteContainer = () => {
                             </div>
 
                             <div className="bg-[#2DD4BF] px-2 py-1 rounded-lg font-semibold text-black text-sm">
-                                <span>Novo</span>
+                                <span>Nova</span>
                             </div>
                         </div>
 
