@@ -15,7 +15,11 @@
     }
 
     .iconsContainerNote {
-        @apply duration-300 rounded-full h-9 w-9 grid place-items-center hover:bg-[#2dd4bf0a];
+        @apply duration-300 rounded-full h-10 w-10 grid place-items-center hover:bg-[#2dd4bf0a] cursor-pointer;
+    }
+
+    .buttonsContainerEditNote {
+        @apply px-6 py-3 rounded-md font-semibold duration-200;
     }
 }
 
@@ -23,7 +27,11 @@ body {
     font-family: "Inter", sans-serif;
     /* font-family: "Caveat", cursive; */
     background-color: #121212;
-    margin-bottom: 1000px;
+    /* margin-bottom: 1000px; */
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 svg {

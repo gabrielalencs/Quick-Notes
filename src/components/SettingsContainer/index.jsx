@@ -167,7 +167,7 @@ const SettingsContainer = () => {
                     </div>
                 </div>
 
-                <div class="triangle"></div>
+                <div className="triangle"></div>
             </div>
         </div>
     )

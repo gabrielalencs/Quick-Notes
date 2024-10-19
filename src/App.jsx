@@ -18,7 +18,7 @@ const App = () => {
     return (
         <>
             <Header />
-            <main className='max-w-[1800px] mx-auto mt-8 mb-20 px-10'>
+            <main className='max-w-[1800px] mx-auto mt-8 mb-10 px-10'>
                 <div>
                     <SettingsContainer />
                 </div>
