@@ -84,8 +84,6 @@ const NoteContainer = () => {
         setNoteInformation(favoriteSavedNotes);
     }, []);
 
-
-    console.log(noteInformation);
     
 
     return (

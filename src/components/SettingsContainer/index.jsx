@@ -1,6 +1,9 @@
 // React
 
-import { useContext, useEffect, useState } from "react";
+import {
+    useContext, useEffect,
+    useRef, useState
+} from "react";
 
 // React Icons
 
@@ -17,6 +20,8 @@ import { NoteInformationContext } from "../../context/NoteInformationContext";
 
 const SettingsContainer = () => {
 
+    const containerSettingsRef = useRef();
+    const buttonOpenContainerSettings = useRef();
     const [hideContainer, setHideContainer] = useState(true);
     const [colorPickerNotes, setColorPickerNotes] = useState('#273347');
     const [fontSizeNotes, setFontSizeNotes] = useState(20);
@@ -32,7 +37,7 @@ const SettingsContainer = () => {
 
     const resetColorPicker = () => setColorPickerNotes('#273347');
 
-    
+
     const getFontSizeInputNumber = (e) => {
         const newValue = e.target.value;
 
@@ -52,7 +57,7 @@ const SettingsContainer = () => {
 
         setNoteFontColor(value);
     };
-    
+
 
     useEffect(() => {
         setNoteInformation(prevNotes =>
@@ -78,14 +83,22 @@ const SettingsContainer = () => {
             setFontSizeNotes(fontSize || 20);
             setNoteFontColor(fontColor || 'Branco');
         }
-    }, [])
-    
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener('click', (e) => {
+            if (!containerSettingsRef.current.contains(e.target) && !buttonOpenContainerSettings.current.contains(e.target)) {
+                setHideContainer(true);
+                console.log(1);
+            }
+        });
+    }, []);
 
 
     return (
         <div className="relative flex flex-col items-end">
             <div>
-                <div className="h-11 w-11 grid place-items-center rounded-full duration-300 hover:bg-[#2dd4bf0a]">
+                <div className="h-11 w-11 grid place-items-center rounded-full duration-300 hover:bg-[#2dd4bf0a]" ref={buttonOpenContainerSettings}>  
                     <BsGearWideConnected
                         className="text-white text-2xl cursor-pointer duration-300 hover:rotate-12"
                         onClick={toggleSettingsContainer}
@@ -93,7 +106,7 @@ const SettingsContainer = () => {
                 </div>
             </div>
 
-            <div className={`bg-[#1f2937] p-5 border-[1px] border-[#424b57] rounded-md absolute top-14 right-[-6px] duration-300 z-50 ${!hideContainer ? 'translate-y-0 opacity-100 pointer-events-auto' : 'translate-y-[-20px] opacity-0 pointer-events-none'}`}>
+            <div className={`bg-[#1f2937] p-5 border-[1px] border-[#424b57] rounded-md absolute top-14 right-[-6px] duration-300 z-50 ${!hideContainer ? 'translate-y-0 opacity-100 pointer-events-auto' : 'translate-y-[-20px] opacity-0 pointer-events-none'}`} ref={containerSettingsRef}>
                 <div className="relative w-max text-[#f3f4f6] border-[1px] border-[#424b57] border-r-0 border-t-0 border-l-0 pb-5">
                     <h3 className="text-lg">Altere a cor das notas:</h3>
                     <ChromePicker
