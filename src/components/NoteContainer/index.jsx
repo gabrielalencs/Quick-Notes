@@ -19,25 +19,26 @@ const NoteContainer = () => {
 
     const colorNotes = noteInformation[0]?.backgroundColor;
 
-    const [hideNoteEditingContainer, setHideNoteEditingContainer] = useState(true);
+    const [isOpenNoteEditing, setIsOpenNoteEditing] = useState(true);
     const [objectOfClickedElement, setObjectOfClickedElement] = useState();
 
 
-    const closeNoteEditingContainer = () => {
-        setHideNoteEditingContainer(true);
+    const closeContainer = (setIsContainer) => {
+        setIsContainer(true);
         document.querySelector('body').classList.remove('overflow-hidden');
         document.querySelector('body').classList.remove('scrollHiddenActive');
     }
+
 
     const openNoteEditingContainer = (idOfClickedContainer) => {
         const objectOfClickedElement = noteInformation.find(note => note.id === idOfClickedContainer);
         setObjectOfClickedElement(objectOfClickedElement);
 
-        setHideNoteEditingContainer(false);
+        setIsOpenNoteEditing(false);
         window.scrollTo(0, 0);
         document.querySelector('body').classList.add('overflow-hidden');
         document.querySelector('body').classList.add('scrollHiddenActive');
-    
+
         document.querySelector('.inputTextarea').value = objectOfClickedElement.text;
     };
 
@@ -54,7 +55,7 @@ const NoteContainer = () => {
             });
         });
 
-        closeNoteEditingContainer();
+        closeContainer(setIsOpenNoteEditing);
     };
 
 
@@ -79,7 +80,7 @@ const NoteContainer = () => {
 
         setNoteInformation(filteredArrayWithDeletedNote);
         localStorage.setItem('notes-created', JSON.stringify(filteredArrayWithDeletedNote));
-    }
+    };
 
 
     useEffect(() => {
@@ -88,6 +89,27 @@ const NoteContainer = () => {
         setNoteInformation(favoriteSavedNotes);
     }, []);
 
+
+
+    
+
+    const [isOpenNoteClassification, setIsOpenNoteClassification] = useState(false);
+    
+    const [isOpenDropdownClassification, setIsOpenDropdownClassification] = useState(false);
+
+    const [selectedOption, setSelectedOption] = useState('Nova');
+
+    const options = ['Nova', 'Concluída', 'Prioridade', 'Urgente', 'Andamento', 'Opcional'];
+
+    const toggleDropdown = () => {
+        setIsOpenDropdownClassification(!isOpenDropdownClassification);
+    };
+
+    const handleOptionClick = (option) => {
+        setSelectedOption(option);
+        setIsOpenNoteClassification(false);
+        
+    };
 
 
     return (
@@ -140,14 +162,15 @@ const NoteContainer = () => {
                 ))
             }
 
-            <div className={`duration-200 ${hideNoteEditingContainer ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'}`}>
+            <div className={`duration-200 ${isOpenNoteEditing ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'}`}>
                 <div className="bg-black opacity-35 absolute w-screen h-screen top-0 right-0"></div>
                 <div className="bg-[#1F2937] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] p-7 border-[1px] border-[#424b57] rounded-md w-10/12 max-w-[700px]">
                     <div className="flex items-center justify-between">
                         <h3 className="text-2xl text-white font-bold">Editar nota</h3>
+
                         <IoCloseCircleOutline
                             className="text-white text-3xl duration-300 cursor-pointer hover:text-[#5EEAD4]"
-                            onClick={closeNoteEditingContainer}
+                            onClick={() => closeContainer(setIsOpenNoteEditing)}
                         />
                     </div>
 
@@ -157,8 +180,51 @@ const NoteContainer = () => {
                     </div>
 
                     <div className="flex items-center gap-5 mt-7">
-                        <button className="buttonsContainerEditNote bg-[#94A3B8] hover:bg-[#cbd5e1;]" onClick={closeNoteEditingContainer}>Cancelar</button>
+                        <button className="buttonsContainerEditNote bg-[#94A3B8] hover:bg-[#cbd5e1;]" onClick={() => closeContainer(setIsOpenNoteEditing)}>Cancelar</button>
                         <button className="buttonsContainerEditNote bg-[#2dd4bf] hover:bg-[#5eead4]" onClick={saveNoteEdit}>Salvar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div className={`duration-200 ${isOpenNoteClassification ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'}`}>
+                <div className="bg-black opacity-35 absolute w-screen h-screen top-0 right-0"></div>
+
+                <div className="bg-[#1F2937] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] p-7 border-[1px] border-[#424b57] rounded-md w-10/12 max-w-[700px]">
+                    <div className="flex items-center justify-between">
+                        <h3 className="text-2xl text-white font-bold">Selecionar tag da nota</h3>
+                        <IoCloseCircleOutline
+                            className="text-white text-3xl duration-300 cursor-pointer hover:text-[#5EEAD4]"
+                            onClick={() => closeContainer(setIsOpenNoteClassification)}
+                        />
+                    </div>
+
+                    <div className="mt-4">
+                        <p className="text-[#fff9] text-lg">Classifique sua nota</p>
+                        <div className="relative w-full">
+                            <button
+                                onClick={toggleDropdown}
+                                className="mt-5 bg-[#111827] rounded-md duration-200 w-full border-[1px] text-white p-3 h-14 flex justify-between items-center border-[#424b57] hover:border-[#2dd4bf]">
+                                {selectedOption}
+                                <div className="arrow"></div>
+                            </button>
+
+                            <ul className={`listOptionalTags absolute z-10 w-full bg-[#111827]  rounded-md shadow-md mt-1 duration-200 border-[1px] border-[#424b57] ${isOpenDropdownClassification ? 'h-40 overflow-y-scroll opacity-100' : 'h-0 overflow-hidden opacity-0'}`}>
+                                {options.map((option) => (
+                                    <li
+                                        key={option}
+                                        onClick={() => handleOptionClick(option)}
+                                        className="p-3 text-white duration-200 hover:bg-[#ffffff08] cursor-pointer"
+                                    >
+                                        {option}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-5 mt-7">
+                        <button className="buttonsContainerEditNote bg-[#94A3B8] hover:bg-[#cbd5e1;]" onClick={() => closeContainer(setIsOpenNoteClassification)}>Cancelar</button>
+                        <button className="buttonsContainerEditNote bg-[#2dd4bf] hover:bg-[#5eead4]">Salvar</button>
                     </div>
                 </div>
             </div>

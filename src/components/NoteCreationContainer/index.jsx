@@ -164,6 +164,7 @@ const NoteCreationContainer = () => {
                 backgroundColor: null,
                 fontSize: null,
                 fontColor: null,
+                status: 'Nova'
             };
     
     

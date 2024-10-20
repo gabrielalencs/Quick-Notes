@@ -89,7 +89,6 @@ const SettingsContainer = () => {
         document.addEventListener('click', (e) => {
             if (!containerSettingsRef.current.contains(e.target) && !buttonOpenContainerSettings.current.contains(e.target)) {
                 setHideContainer(true);
-                console.log(1);
             }
         });
     }, []);
