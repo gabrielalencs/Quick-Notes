@@ -16,11 +16,15 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 
 const NoteContainer = () => {
     const { noteInformation, setNoteInformation } = useContext(NoteInformationContext);
-
     const colorNotes = noteInformation[0]?.backgroundColor;
 
     const [isOpenNoteEditing, setIsOpenNoteEditing] = useState(true);
     const [objectOfClickedElement, setObjectOfClickedElement] = useState();
+
+    const [isOpenNoteClassification, setIsOpenNoteClassification] = useState(true);
+    const [isOpenDropdownClassification, setIsOpenDropdownClassification] = useState(false);
+    const [selectedOptionClassification, setSelectedOptionClassification] = useState('Nova');
+    const optionsClassification = ['Nova', 'Concluída', 'Prioridade', 'Urgente', 'Andamento', 'Opcional'];
 
 
     const closeContainer = (setIsContainer) => {
@@ -29,6 +33,29 @@ const NoteContainer = () => {
         document.querySelector('body').classList.remove('scrollHiddenActive');
     }
 
+    
+
+    const openNoteClassificationContainer = () => setIsOpenNoteClassification(false);
+
+    const toggleDropdownClassication = () => setIsOpenDropdownClassification(!isOpenDropdownClassification);
+
+    const selectClassificationClicked = (option) => {
+        setSelectedOptionClassification(option);
+        setIsOpenDropdownClassification(false);
+    };
+
+
+    // delete note and update local storage with the change
+
+    const deleteNote = (idOfClickedContainer) => {
+        const filteredArrayWithDeletedNote = noteInformation.filter(note => note.id !== idOfClickedContainer);
+
+        setNoteInformation(filteredArrayWithDeletedNote);
+        localStorage.setItem('notes-created', JSON.stringify(filteredArrayWithDeletedNote));
+    };
+
+
+    // opens note editing container and gets the text of the clicked note
 
     const openNoteEditingContainer = (idOfClickedContainer) => {
         const objectOfClickedElement = noteInformation.find(note => note.id === idOfClickedContainer);
@@ -42,6 +69,7 @@ const NoteContainer = () => {
         document.querySelector('.inputTextarea').value = objectOfClickedElement.text;
     };
 
+    // saves the edit made to the note
 
     const saveNoteEdit = () => {
         const editedText = document.querySelector('.inputTextarea').value;
@@ -59,6 +87,8 @@ const NoteContainer = () => {
     };
 
 
+    // downloads the note text to a .txt file
+
     const downloadNote = (idOfClickedContainer) => {
         const textOfClickedElement = noteInformation.find(note => note.id === idOfClickedContainer).text;
 
@@ -75,41 +105,12 @@ const NoteContainer = () => {
         window.URL.revokeObjectURL(linkUrl);
     };
 
-    const deleteNote = (idOfClickedContainer) => {
-        const filteredArrayWithDeletedNote = noteInformation.filter(note => note.id !== idOfClickedContainer);
-
-        setNoteInformation(filteredArrayWithDeletedNote);
-        localStorage.setItem('notes-created', JSON.stringify(filteredArrayWithDeletedNote));
-    };
-
 
     useEffect(() => {
         const favoriteSavedNotes = JSON.parse(localStorage.getItem('notes-created')) || [];
 
         setNoteInformation(favoriteSavedNotes);
     }, []);
-
-
-
-    
-
-    const [isOpenNoteClassification, setIsOpenNoteClassification] = useState(false);
-    
-    const [isOpenDropdownClassification, setIsOpenDropdownClassification] = useState(false);
-
-    const [selectedOption, setSelectedOption] = useState('Nova');
-
-    const options = ['Nova', 'Concluída', 'Prioridade', 'Urgente', 'Andamento', 'Opcional'];
-
-    const toggleDropdown = () => {
-        setIsOpenDropdownClassification(!isOpenDropdownClassification);
-    };
-
-    const handleOptionClick = (option) => {
-        setSelectedOption(option);
-        setIsOpenNoteClassification(false);
-        
-    };
 
 
     return (
@@ -128,7 +129,7 @@ const NoteContainer = () => {
                                 <span>{noteCreated.time}</span>
                             </div>
 
-                            <div className="bg-[#2DD4BF] px-2 py-1 rounded-lg font-semibold text-black text-sm">
+                            <div className="bg-[#2DD4BF] px-2 py-1 rounded-lg font-semibold text-black text-sm cursor-pointer" onClick={openNoteClassificationContainer}>
                                 <span>Nova</span>
                             </div>
                         </div>
@@ -164,10 +165,10 @@ const NoteContainer = () => {
 
             <div className={`duration-200 ${isOpenNoteEditing ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'}`}>
                 <div className="bg-black opacity-35 absolute w-screen h-screen top-0 right-0"></div>
+
                 <div className="bg-[#1F2937] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] p-7 border-[1px] border-[#424b57] rounded-md w-10/12 max-w-[700px]">
                     <div className="flex items-center justify-between">
                         <h3 className="text-2xl text-white font-bold">Editar nota</h3>
-
                         <IoCloseCircleOutline
                             className="text-white text-3xl duration-300 cursor-pointer hover:text-[#5EEAD4]"
                             onClick={() => closeContainer(setIsOpenNoteEditing)}
@@ -200,19 +201,21 @@ const NoteContainer = () => {
 
                     <div className="mt-4">
                         <p className="text-[#fff9] text-lg">Classifique sua nota</p>
+
                         <div className="relative w-full">
                             <button
-                                onClick={toggleDropdown}
-                                className="mt-5 bg-[#111827] rounded-md duration-200 w-full border-[1px] text-white p-3 h-14 flex justify-between items-center border-[#424b57] hover:border-[#2dd4bf]">
-                                {selectedOption}
-                                <div className="arrow"></div>
+                                onClick={toggleDropdownClassication}
+                                className="mt-5 bg-[#111827] rounded-md duration-200 w-full border-[1px] text-white p-3 h-14 flex justify-between items-center border-[#424b57] hover:border-[#2dd4bf]"
+                            >
+                                {selectedOptionClassification}
+                                <div className="arrow" />
                             </button>
 
                             <ul className={`listOptionalTags absolute z-10 w-full bg-[#111827]  rounded-md shadow-md mt-1 duration-200 border-[1px] border-[#424b57] ${isOpenDropdownClassification ? 'h-40 overflow-y-scroll opacity-100' : 'h-0 overflow-hidden opacity-0'}`}>
-                                {options.map((option) => (
+                                {optionsClassification.map(option => (
                                     <li
                                         key={option}
-                                        onClick={() => handleOptionClick(option)}
+                                        onClick={() => selectClassificationClicked(option)}
                                         className="p-3 text-white duration-200 hover:bg-[#ffffff08] cursor-pointer"
                                     >
                                         {option}
