@@ -28,12 +28,6 @@ import { FiSave } from "react-icons/fi";
 const NoteCreationContainer = () => {
     const { noteInformation, setNoteInformation } = useContext(NoteInformationContext);
 
-    const [textFormatting, setTextFormatting] = useState([]);
-    const [recognitionInstance, setRecognitionInstance] = useState(null);
-    const [interimText, setInterimText] = useState('');
-
-    const containerNoteRef = useRef(null);
-
     let notesWithNewClassification = noteInformation.filter(note => note.status === 'Nova').length;
     let notesWithCompletedClassification = noteInformation.filter(note => note.status === 'Concluída').length;
     let notesWithPriorityClassification = noteInformation.filter(note => note.status === 'Prioridade').length;
@@ -41,8 +35,13 @@ const NoteCreationContainer = () => {
     let notesWithInProgressClassification = noteInformation.filter(note => note.status === 'Andamento').length;
     let notesWithOptionalClassification = noteInformation.filter(note => note.status === 'Opcional').length;
 
+    const [textFormatting, setTextFormatting] = useState([]);
+    const [recognitionInstance, setRecognitionInstance] = useState(null);
+    const [interimText, setInterimText] = useState('');
 
+    const containerNoteRef = useRef(null);
 
+   
     // text formatting when clicking on buttons
 
     const toggleTextFormatting = (formatType) => {
@@ -84,7 +83,7 @@ const NoteCreationContainer = () => {
     }, []);
 
 
-    // capture audio and transcribe in the note creation container - first and second button
+    // capture audio and transcribe in the note creation container
 
     const startRecognition = () => {
         setRecognitionInstance(true);
@@ -140,7 +139,7 @@ const NoteCreationContainer = () => {
     };
 
 
-    // clear note creation container - third button
+    // clear note creation container
 
     const clearTextFromNotepad = () => {
         containerNoteRef.current.innerText = '';
@@ -149,7 +148,7 @@ const NoteCreationContainer = () => {
     };
 
 
-    // create note with information - fourth button
+    // create note with informations
  
     const addNote = () => {
         const textTypedInContainer = containerNoteRef.current.innerHTML;
@@ -216,7 +215,7 @@ const NoteCreationContainer = () => {
                     className='bg-blue-container-notes h-[350px] p-5'
                     onClick={() => containerNoteRef.current.focus()}>
                     <span
-                        className='outline-none text-white inline-block w-full'
+                        className='outline-none text-white'
                         ref={containerNoteRef}
                         contentEditable
                         suppressContentEditableWarning
@@ -232,10 +231,10 @@ const NoteCreationContainer = () => {
                 <button className='buttonsContainerNoteCreation buttonTooltip' onClick={addNote}><FiSave /></button>
             </div>
 
-            <div className='mt-14 mb-96'>
+            <div className='mt-14'>
                 <h3 className='text-white text-xl font-semibold'>Status das Tarefas:</h3>
 
-                <ul className='mt-5 text-white flex flex-col gap-1'>
+                <ul className='mt-5 text-white flex flex-col gap-2'>
                     <li>
                         <span className='circleTasks bg-[#2DD4BF]'></span>
                         Nova
