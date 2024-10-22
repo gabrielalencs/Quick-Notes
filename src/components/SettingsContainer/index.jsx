@@ -20,8 +20,8 @@ import { NoteInformationContext } from "../../context/NoteInformationContext";
 
 const SettingsContainer = () => {
 
-    const containerSettingsRef = useRef();
-    const buttonOpenContainerSettings = useRef();
+    const containerSettingsRef = useRef(null);
+    const buttonOpenContainerSettings = useRef(null);
     const [hideContainer, setHideContainer] = useState(true);
     const [colorPickerNotes, setColorPickerNotes] = useState('#273347');
     const [fontSizeNotes, setFontSizeNotes] = useState(20);

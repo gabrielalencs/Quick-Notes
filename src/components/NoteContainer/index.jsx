@@ -1,6 +1,6 @@
 // React
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 // Context
 
@@ -16,19 +16,18 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 
 const NoteContainer = () => {
     const { noteInformation, setNoteInformation } = useContext(NoteInformationContext);
-    console.log(noteInformation);
-
     const colorNotes = noteInformation[0]?.backgroundColor;
 
     const [objectOfClickedElement, setObjectOfClickedElement] = useState();
 
     const [isOpenNoteEditing, setIsOpenNoteEditing] = useState(true);
 
+    const dropdownClassificationRef = useRef(null);
     const [isOpenNoteClassification, setIsOpenNoteClassification] = useState(true);
     const [isOpenDropdownClassification, setIsOpenDropdownClassification] = useState(false);
     const [selectedOptionClassification, setSelectedOptionClassification] = useState('Nova');
-    const optionsClassification = ['Nova', 'Concluída', 'Prioridade', 'Urgente', 'Andamento', 'Opcional'];
 
+    const optionsClassification = ['Nova', 'Concluída', 'Prioridade', 'Urgente', 'Andamento', 'Opcional'];
     const statusColors = {
         Nova: { bg: 'bg-[#2DD4BF]', text: 'text-black' },
         Concluída: { bg: 'bg-[#46D178]', text: 'text-black' },
@@ -37,6 +36,7 @@ const NoteContainer = () => {
         Andamento: { bg: 'bg-orange-700', text: 'text-white' },
         Opcional: { bg: 'bg-blue-800', text: 'text-white' }
     };
+
 
     const closeContainer = (setIsContainer) => {
         setIsContainer(true);
@@ -56,7 +56,10 @@ const NoteContainer = () => {
         openContainer(setIsOpenNoteClassification);
 
         const objectOfClickedElement = noteInformation.find(note => note.id === idOfClickedContainer);
+        const statusOfClickedObject = objectOfClickedElement.status
+
         setObjectOfClickedElement(objectOfClickedElement);
+        setSelectedOptionClassification(statusOfClickedObject);
     };
 
     const toggleDropdownClassication = () => setIsOpenDropdownClassification(!isOpenDropdownClassification);
@@ -146,6 +149,12 @@ const NoteContainer = () => {
         setNoteInformation(favoriteSavedNotes);
     }, []);
 
+    useEffect(() => {
+        document.addEventListener('click', (e) => {
+            if (!dropdownClassificationRef.current.contains(e.target)) setIsOpenDropdownClassification(false);
+        });
+    }, []);
+
 
 
     return (
@@ -164,8 +173,8 @@ const NoteContainer = () => {
                                 <span>{noteCreated.time}</span>
                             </div>
 
-                            <div 
-                                className={`${statusColors[noteCreated.status].bg || 'bg-[#2DD4BF]'} ${statusColors[noteCreated.status].text || 'text-black'} px-2 py-1 rounded-lg font-medium text-sm cursor-pointer`} 
+                            <div
+                                className={`${statusColors[noteCreated.status].bg || 'bg-[#2DD4BF]'} ${statusColors[noteCreated.status].text || 'text-black'} px-2 py-1 rounded-lg font-medium text-sm cursor-pointer`}
                                 onClick={() => openNoteClassificationContainer(noteCreated.id)}
                             >
                                 <span>{noteCreated.status}</span>
@@ -242,6 +251,7 @@ const NoteContainer = () => {
 
                         <div className="relative w-full">
                             <button
+                                ref={dropdownClassificationRef}
                                 onClick={toggleDropdownClassication}
                                 className="mt-5 bg-[#111827] rounded-md duration-200 w-full border-[1px] text-white p-3 h-14 flex justify-between items-center border-[#424b57] hover:border-[#2dd4bf]"
                             >
