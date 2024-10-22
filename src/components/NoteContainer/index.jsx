@@ -16,32 +16,69 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 
 const NoteContainer = () => {
     const { noteInformation, setNoteInformation } = useContext(NoteInformationContext);
+    console.log(noteInformation);
+
     const colorNotes = noteInformation[0]?.backgroundColor;
 
-    const [isOpenNoteEditing, setIsOpenNoteEditing] = useState(true);
     const [objectOfClickedElement, setObjectOfClickedElement] = useState();
+
+    const [isOpenNoteEditing, setIsOpenNoteEditing] = useState(true);
 
     const [isOpenNoteClassification, setIsOpenNoteClassification] = useState(true);
     const [isOpenDropdownClassification, setIsOpenDropdownClassification] = useState(false);
     const [selectedOptionClassification, setSelectedOptionClassification] = useState('Nova');
     const optionsClassification = ['Nova', 'Concluída', 'Prioridade', 'Urgente', 'Andamento', 'Opcional'];
 
+    const statusColors = {
+        Nova: { bg: 'bg-[#2DD4BF]', text: 'text-black' },
+        Concluída: { bg: 'bg-[#46D178]', text: 'text-black' },
+        Prioridade: { bg: 'bg-purple-900', text: 'text-white' },
+        Urgente: { bg: 'bg-red-800', text: 'text-white' },
+        Andamento: { bg: 'bg-orange-700', text: 'text-white' },
+        Opcional: { bg: 'bg-blue-800', text: 'text-white' }
+    };
 
     const closeContainer = (setIsContainer) => {
         setIsContainer(true);
         document.querySelector('body').classList.remove('overflow-hidden');
         document.querySelector('body').classList.remove('scrollHiddenActive');
-    }
+    };
 
-    
+    const openContainer = (setIsContainer) => {
+        setIsContainer(false);
+        window.scrollTo(0, 0);
+        document.querySelector('body').classList.add('overflow-hidden');
+        document.querySelector('body').classList.add('scrollHiddenActive');
+    };
 
-    const openNoteClassificationContainer = () => setIsOpenNoteClassification(false);
+
+    const openNoteClassificationContainer = (idOfClickedContainer) => {
+        openContainer(setIsOpenNoteClassification);
+
+        const objectOfClickedElement = noteInformation.find(note => note.id === idOfClickedContainer);
+        setObjectOfClickedElement(objectOfClickedElement);
+    };
 
     const toggleDropdownClassication = () => setIsOpenDropdownClassification(!isOpenDropdownClassification);
 
     const selectClassificationClicked = (option) => {
         setSelectedOptionClassification(option);
         setIsOpenDropdownClassification(false);
+    };
+
+    const saveGradeRating = () => {
+        const selectedClassification = selectedOptionClassification;
+
+        setNoteInformation(prevNotes => {
+            return prevNotes.map(note => {
+                if (note.id === objectOfClickedElement.id) {
+                    return { ...note, status: selectedClassification };
+                }
+                return note;
+            });
+        });
+
+        closeContainer(setIsOpenNoteClassification);
     };
 
 
@@ -58,15 +95,12 @@ const NoteContainer = () => {
     // opens note editing container and gets the text of the clicked note
 
     const openNoteEditingContainer = (idOfClickedContainer) => {
+        openContainer(setIsOpenNoteEditing);
+
         const objectOfClickedElement = noteInformation.find(note => note.id === idOfClickedContainer);
-        setObjectOfClickedElement(objectOfClickedElement);
-
-        setIsOpenNoteEditing(false);
-        window.scrollTo(0, 0);
-        document.querySelector('body').classList.add('overflow-hidden');
-        document.querySelector('body').classList.add('scrollHiddenActive');
-
         document.querySelector('.inputTextarea').value = objectOfClickedElement.text;
+
+        setObjectOfClickedElement(objectOfClickedElement);
     };
 
     // saves the edit made to the note
@@ -113,6 +147,7 @@ const NoteContainer = () => {
     }, []);
 
 
+
     return (
         <div className="flex-1 grid gap-10 place-content-start sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 lg:gap-y-16 lg:gap-7 min-[1589px]:grid-cols-3">
             {
@@ -129,8 +164,11 @@ const NoteContainer = () => {
                                 <span>{noteCreated.time}</span>
                             </div>
 
-                            <div className="bg-[#2DD4BF] px-2 py-1 rounded-lg font-semibold text-black text-sm cursor-pointer" onClick={openNoteClassificationContainer}>
-                                <span>Nova</span>
+                            <div 
+                                className={`${statusColors[noteCreated.status].bg || 'bg-[#2DD4BF]'} ${statusColors[noteCreated.status].text || 'text-black'} px-2 py-1 rounded-lg font-medium text-sm cursor-pointer`} 
+                                onClick={() => openNoteClassificationContainer(noteCreated.id)}
+                            >
+                                <span>{noteCreated.status}</span>
                             </div>
                         </div>
 
@@ -211,7 +249,7 @@ const NoteContainer = () => {
                                 <div className="arrow" />
                             </button>
 
-                            <ul className={`listOptionalTags absolute z-10 w-full bg-[#111827]  rounded-md shadow-md mt-1 duration-200 border-[1px] border-[#424b57] ${isOpenDropdownClassification ? 'h-40 overflow-y-scroll opacity-100' : 'h-0 overflow-hidden opacity-0'}`}>
+                            <ul className={`listOptionalTags absolute z-10 w-full bg-[#111827]  rounded-md shadow-md mt-1 duration-200 border-[1px] border-[#424b57] ${isOpenDropdownClassification ? 'h-[200px] overflow-y-scroll opacity-100' : 'h-0 overflow-hidden opacity-0'}`}>
                                 {optionsClassification.map(option => (
                                     <li
                                         key={option}
@@ -227,7 +265,7 @@ const NoteContainer = () => {
 
                     <div className="flex items-center gap-5 mt-7">
                         <button className="buttonsContainerEditNote bg-[#94A3B8] hover:bg-[#cbd5e1;]" onClick={() => closeContainer(setIsOpenNoteClassification)}>Cancelar</button>
-                        <button className="buttonsContainerEditNote bg-[#2dd4bf] hover:bg-[#5eead4]">Salvar</button>
+                        <button className="buttonsContainerEditNote bg-[#2dd4bf] hover:bg-[#5eead4]" onClick={saveGradeRating}>Salvar</button>
                     </div>
                 </div>
             </div>

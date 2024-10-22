@@ -30,7 +30,6 @@
 body {
     font-family: "Inter", sans-serif;
     background-color: #121212;
-    /* margin-bottom: 100px; */
     overflow-y: scroll;
     overflow-x: hidden;
 
@@ -59,7 +58,7 @@ body {
     }
 
     &::-webkit-scrollbar-track {
-        background-color: #111827;
+        background-color: #090e18;
     }
 
     &::-webkit-scrollbar-thumb {
