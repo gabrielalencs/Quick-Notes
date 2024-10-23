@@ -88,10 +88,14 @@ const NoteContainer = () => {
     // delete note and update local storage with the change
 
     const deleteNote = (idOfClickedContainer) => {
-        const filteredArrayWithDeletedNote = noteInformation.filter(note => note.id !== idOfClickedContainer);
-
-        setNoteInformation(filteredArrayWithDeletedNote);
-        localStorage.setItem('notes-created', JSON.stringify(filteredArrayWithDeletedNote));
+        const noteElement = document.getElementById(`note-${idOfClickedContainer}`);
+        noteElement.classList.add('toDreceaseNote'); // Adiciona a classe de animação
+    
+        setTimeout(() => {
+            const filteredArrayWithDeletedNote = noteInformation.filter(note => note.id !== idOfClickedContainer);
+            setNoteInformation(filteredArrayWithDeletedNote);
+            localStorage.setItem('notes-created', JSON.stringify(filteredArrayWithDeletedNote));
+        }, 500); 
     };
 
 
@@ -163,6 +167,7 @@ const NoteContainer = () => {
                 noteInformation.map(noteCreated => (
                     <div
                         key={noteCreated.id}
+                        id={`note-${noteCreated.id}`}
                         className={`postIt max-w-[300px] md:max-w-[350px] bg-[#273347]`}
                         style={{ backgroundColor: !noteCreated.backgroundColor ? colorNotes : noteCreated.backgroundColor }}
                     >

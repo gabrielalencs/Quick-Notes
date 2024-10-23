@@ -178,6 +178,7 @@ input[type='checkbox']:checked::before {
     width: 100%;
     color: #f3f4f6;
     transform: scale(0);
+    transition: all .2s;
     animation: toGrow 0.4s forwards;
 
     &::before {
@@ -208,6 +209,21 @@ input[type='checkbox']:checked::before {
 @keyframes toGrow {
     to {
         transform: scale(1);
+    }
+}
+
+.toDreceaseNote {
+    animation: toShrink 0.4s forwards;
+}
+
+@keyframes toShrink {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0);
+        opacity: 0;
     }
 }
 
