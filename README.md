@@ -1,11 +1,11 @@
 <div align="center">
 	<h1>Quick Notes 📝📌</h1>
-	<img src="./src//assets/images/print-do-projeto.PNG" width="700">
+	<img src="./src/assets/print-do-projeto.PNG" width="1000">
 	<br>
 	<br>
 	<p>
-	  Quick Notes é uma aplicação web que permite criar, editar e gerenciar anotações de forma prática, com uma interface leve e funcional. 
-    Além disso, oferece opções de personalização, permitindo alterar a cor das notas, o fundo da página e o tamanho da fonte.
+	  $\color{RoyalBlue}{\textsf{Quick Notes}}$ é uma aplicação web que permite $\color{RoyalBlue}{\textsf{criar, editar e gerenciar anotações de forma prática}}$, com uma interface leve e funcional. 
+    Além disso, oferece $\color{RoyalBlue}{\textsf{opções de personalização}}$, permitindo alterar a cor das notas, o fundo da página e o tamanho da fonte.
 	</p>
 </div>
 
@@ -19,7 +19,7 @@
 - [x] Download de notas. 
 - [x] Personalização na cor de texto, cor de fundo e tamanho da fonte das notas.
 - [x] Notas com textos em negrito, sublinhado e itálico.
-- [x] Status das notas (Concluída, em andamento, prioridade etc)
+- [x] Status das notas (Concluída, em andamento, prioridade etc).
 - [x] Contagem dos status das notas.
 
 
@@ -53,5 +53,5 @@ Para executar o projeto, siga-os passos abaixo:
 <br>
 
 <div align="center">
-  <p>Desenvolvido com 🧡 por <b>Gabriel de Alencar</b></p>
+  <p>Desenvolvido com 💙 por <b>Gabriel de Alencar</b></p>
 </div>
