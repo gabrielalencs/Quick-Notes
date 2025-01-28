@@ -1,5 +1,5 @@
 <div align="center">
-	<h1>Quick Notes 📝📌</h1>
+	<h1>Quick Notes 🗒️📌</h1>
 	<img src="./src/assets/print-do-projeto.PNG" width="1000">
 	<br>
 	<br>
