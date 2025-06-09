@@ -4,8 +4,8 @@
 	<br>
 	<br>
 	<p>
-	  $\color{RoyalBlue}{\textsf{Quick Notes}}$ é uma aplicação web que permite $\color{RoyalBlue}{\textsf{criar, editar e gerenciar anotações de forma prática}}$, com uma interface leve e funcional. 
-    Além disso, oferece $\color{RoyalBlue}{\textsf{opções de personalização}}$, permitindo alterar a cor das notas, o fundo da página e o tamanho da fonte.
+	  Quick Notes é uma aplicação web que permite criar, editar e gerenciar anotações de forma prática, com uma interface leve e funcional. 
+    Além disso, oferece opções de personalização, permitindo alterar a cor das notas, o fundo da página e o tamanho da fonte.
 	</p>
 </div>
 
